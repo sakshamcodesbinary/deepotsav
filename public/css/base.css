@@ -61,9 +61,11 @@ html.modal-open { overflow: hidden; }
 /* ---- connect (Instagram / LinkedIn / X) ---- */
 .connect { position: fixed; z-index: 35; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .connect .main {
-  width: 54px; height: 54px; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--gold); color: var(--gold-hi);
+  position: relative; width: 54px; height: 54px; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--gold); color: var(--gold-hi);
   background: radial-gradient(circle at 30% 25%, #8a2a9e, #33176e); box-shadow: 0 6px 22px rgba(0, 0, 0, .4), 0 0 24px rgba(246, 196, 83, .25); transition: transform .3s;
 }
+.connect .main::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid rgba(246, 196, 83, .5); animation: ping2 2.8s ease-out infinite; pointer-events: none; }
+.connect.open .main::after { display: none; }
 .connect.open .main { transform: rotate(90deg); }
 .links { display: flex; flex-direction: column; gap: 10px; align-items: center; pointer-events: none; }
 .link {
@@ -106,9 +108,6 @@ html.modal-open { overflow: hidden; }
 .qrbox img { display: block; width: 100%; max-width: 190px; height: auto; margin: 0 auto; aspect-ratio: 1; object-fit: contain; transition: opacity .2s; }
 .qrbox img.loading { opacity: .35; }
 .qrnote { margin-top: 6px; font-size: 12.5px; color: #7a5a2a; }
-.upi { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-.upi code { padding: 6px 10px; border-radius: 10px; background: #f4e6c8; color: #5b2a0e; font: 600 14px ui-monospace, Consolas, monospace; word-break: break-all; }
-.copybtn { padding: 7px 12px; border: 0; border-radius: 10px; background: #2b1408; color: #ffe9b0; font: 600 13px var(--body); }
 .pay { display: block; max-width: 280px; margin: 14px auto 0; padding: 14px; border-radius: 30px; text-align: center; text-decoration: none; font-weight: 700; color: #2b0f05; background: linear-gradient(#ffb23c, #e8731a); box-shadow: 0 6px 20px rgba(232, 115, 26, .4); }
 
 /* ---- Shukriya + sweets ---- */
@@ -137,6 +136,7 @@ html.modal-open { overflow: hidden; }
 
 @keyframes sheetIn { from { opacity: 0; transform: translateY(14px) scale(.98); } }
 @keyframes sheetUp { from { transform: translateY(40px); opacity: .6; } }
+@keyframes ping2 { 0% { transform: scale(.9); opacity: .8; } 100% { transform: scale(1.4); opacity: 0; } }
 @keyframes fadeIn { from { opacity: 0; } }
 @keyframes fadeOut { to { opacity: 0; } }
 @keyframes wordIn { from { opacity: 0; transform: scale(.7); } }

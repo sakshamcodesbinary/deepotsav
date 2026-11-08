@@ -110,10 +110,10 @@ export function startMusic() {
   const p = tryPlay();
   if (p && p.catch) p.catch(() => {
     const kick = () => {
-      ['pointerdown', 'keydown', 'touchstart'].forEach((e) => window.removeEventListener(e, kick, true));
+      ['click', 'touchend', 'keydown'].forEach((e) => window.removeEventListener(e, kick, true));
       if (musicWanted) tryPlay().catch(() => {});
     };
-    ['pointerdown', 'keydown', 'touchstart'].forEach((e) => window.addEventListener(e, kick, true));
+    ['click', 'touchend', 'keydown'].forEach((e) => window.addEventListener(e, kick, true));
   });
 }
 /** Fades the music out and pauses it (used when entering the game). */
@@ -127,3 +127,28 @@ export function stopMusic() {
     if (i >= 8) { clearInterval(id); m.pause(); m.volume = v0; }
   }, 45);
 }
+
+/** Unlocks the music element inside the visitor's tap, so it can be started a moment later (e.g. after the diya lights). */
+export function primeMusic() {
+  if (!music) { music = new Audio('/assets/landing-music.mp3'); music.loop = true; music.preload = 'auto'; }
+  music.muted = true;
+  const p = music.play();
+  if (p && p.then) p.then(() => { if (!musicWanted) { music.pause(); music.currentTime = 0; } music.muted = S.muted; }).catch(() => { music.muted = S.muted; });
+}
+
+/*
+ * Phones only treat click / touchend / keydown as a real "user gesture" (pointerdown does not count),
+ * so the audio engine is unlocked from those. The Jethelal tune element is also "played" once, muted,
+ * inside that gesture, which lets it be started later by the game when a cracker goes off.
+ */
+const GESTURES = ['pointerup', 'touchend', 'click', 'keydown'];
+function onGesture() {
+  unlock();
+  if (special && !special.__primed) {
+    special.__primed = true; special.muted = true;
+    const p = special.play();
+    if (p && p.then) p.then(() => { special.pause(); special.currentTime = 0; special.muted = S.muted; }).catch(() => { special.muted = S.muted; });
+  }
+  if (ctx && ctx.state === 'running') GESTURES.forEach((e) => window.removeEventListener(e, onGesture, true));
+}
+GESTURES.forEach((e) => window.addEventListener(e, onGesture, true));

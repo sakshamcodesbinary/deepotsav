@@ -13,6 +13,30 @@
 <link rel="stylesheet" href="/css/landing.css">
 </head>
 <body class="landing">
+<div class="intro" id="intro" role="button" tabindex="0" data-i18n-aria="introAria">
+  <div class="stars" aria-hidden="true"></div><div class="stars two" aria-hidden="true"></div>
+  <div class="bigdiya" aria-hidden="true">
+    <i class="ring"></i><i class="ring r2"></i>
+    <svg viewBox="0 0 260 230" width="100%">
+      <defs>
+        <linearGradient id="clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8873a"/><stop offset=".55" stop-color="#b5481c"/><stop offset="1" stop-color="#6e250e"/></linearGradient>
+        <linearGradient id="oil" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5a2208"/><stop offset=".5" stop-color="#a3561d"/><stop offset="1" stop-color="#5a2208"/></linearGradient>
+        <radialGradient id="flm" cx=".5" cy=".75" r=".7"><stop offset="0" stop-color="#fffbe0"/><stop offset=".35" stop-color="#ffd36b"/><stop offset="1" stop-color="#ff7a1a"/></radialGradient>
+        <radialGradient id="hal"><stop offset="0" stop-color="#ffcf70" stop-opacity=".75"/><stop offset="1" stop-color="#ffcf70" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle class="halo" cx="130" cy="92" r="110" fill="url(#hal)"/>
+      <path d="M14 112Q130 238 246 112Z" fill="url(#clay)"/>
+      <path d="M40 124Q66 168 100 190" stroke="#fff" stroke-opacity=".18" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <g fill="#ffd36b" opacity=".85"><circle cx="52" cy="136" r="3"/><circle cx="78" cy="160" r="3"/><circle cx="104" cy="176" r="3"/><circle cx="130" cy="182" r="3"/><circle cx="156" cy="176" r="3"/><circle cx="182" cy="160" r="3"/><circle cx="208" cy="136" r="3"/></g>
+      <ellipse cx="130" cy="112" rx="118" ry="20" fill="#7a2e0e"/>
+      <ellipse cx="130" cy="112" rx="104" ry="14" fill="url(#oil)"/>
+      <path d="M124 108Q130 100 136 108Z" fill="#2a1208"/>
+      <g class="flame"><path d="M130 104Q96 62 130 4Q164 62 130 104Z" fill="url(#flm)"/><path d="M130 100Q114 74 130 40Q146 74 130 100Z" fill="#fffbe8" opacity=".9"/></g>
+    </svg>
+    <i class="bloom"></i>
+  </div>
+  <p class="prompt" data-i18n="introPrompt">दीया जलाने के लिए छूएँ</p>
+</div>
 <main class="hero">
   <div class="sky" aria-hidden="true"><div class="stars"></div><div class="stars two"></div></div>
   <div class="moon" aria-hidden="true"></div>

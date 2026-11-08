@@ -9,7 +9,7 @@ const ICON = {
   speaker: svg('<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 9a4 4 0 0 1 0 6M19.5 6.5a8 8 0 0 1 0 11"/>'),
   muted: svg('<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9.5l5 5M22 9.5l-5 5"/>'),
   trophy: svg('<path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 20h8M10 17h4"/>'),
-  connect: svg('<circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="6" r="2.6"/><circle cx="18" cy="18" r="2.6"/><path d="M8.3 10.8l7.4-3.6M8.3 13.2l7.4 3.6"/>', 'width="26" height="26"'),
+  connect: svg('<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 2.6 4.2 5.6 4.2 9s-1.4 6.4-4.2 9c-2.8-2.6-4.2-5.6-4.2-9S9.2 5.6 12 3z"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/>', 'width="28" height="28"'),
   instagram: svg('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>'),
   linkedin: '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><rect x="3" y="9" width="4" height="12" rx=".6"/><circle cx="5" cy="5" r="2.2"/><path d="M10 9h3.8v1.8c.7-1.3 2.1-2.1 3.9-2.1 3.1 0 4.3 2 4.3 5.2V21h-4v-6.1c0-1.5-.5-2.5-1.9-2.5S14 13.4 14 15v6h-4z"/></svg>',
   x: '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
@@ -96,16 +96,15 @@ function buildKharchi() {
     <div class="presets" role="group" aria-label="Amount"></div>
     <label class="custom"><span>Other amount</span><b>&#8377;</b><input type="number" inputmode="numeric" min="1" max="100000" placeholder="Amount" aria-label="Other amount in rupees"></label>
     <div class="qrbox"><img alt="UPI QR code" width="190" height="190"><p class="qrnote"></p></div>
-    <div class="upi"><code></code><button type="button" class="copybtn">Copy UPI ID</button></div>
     <a class="pay" href="#">Pay via UPI app</a>`;
   const presetsBox = k.sheet.querySelector('.presets'), input = k.sheet.querySelector('input');
-  const img = k.sheet.querySelector('img'), note = k.sheet.querySelector('.qrnote'), code = k.sheet.querySelector('code');
-  const pay = k.sheet.querySelector('.pay'), copy = k.sheet.querySelector(".copybtn");
+  const img = k.sheet.querySelector('img'), note = k.sheet.querySelector('.qrnote');
+  const pay = k.sheet.querySelector('.pay');
   let amount = 0, timer = null;
 
   const link = () => `upi://pay?pa=${encodeURIComponent(cfg.upiId)}&pn=${encodeURIComponent(cfg.payeeName)}&cu=INR&tn=${encodeURIComponent('Diwali Ki Kharchi')}` + (amount ? `&am=${amount}` : '');
   const refresh = () => {
-    code.textContent = cfg.upiId; pay.href = link();
+    pay.href = link();
     note.textContent = amount ? `Scan with any UPI app to pay \u20B9${amount}` : 'Scan with any UPI app';
     img.classList.add('loading');
     img.onload = () => img.classList.remove('loading');
@@ -124,10 +123,6 @@ function buildKharchi() {
   input.addEventListener('input', () => {
     clearTimeout(timer);
     timer = setTimeout(() => { const n = Math.floor(Number(input.value)); select(Number.isFinite(n) && n >= 1 && n <= 100000 ? n : 0); }, 350);
-  });
-  copy.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(cfg.upiId); copy.textContent = 'Copied'; } catch (_) { copy.textContent = 'Press and hold to copy'; }
-    setTimeout(() => { copy.textContent = 'Copy UPI ID'; }, 1600);
   });
   k.sheet.querySelector('.x').addEventListener('click', () => k.close());
   k.setOnClose(showShukriya);

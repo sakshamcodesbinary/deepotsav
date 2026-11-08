@@ -6,11 +6,24 @@ initControls(document.getElementById('controls'));
 initConnect();
 bindKharchi();
 apply();
-sound.startMusic();
 
-// A soft bell when the visitor enters the game (only audible if sound is on).
-// Entering firecracker mode: fade the music out and pause it (the next page doesn't play it at all).
+// Opening: one big diya. The tap starts the music and lights the flame; the scene then unfolds in step with the music.
+const intro = document.getElementById('intro');
+let started = false;
+function lightDiya() {
+  if (started) return;
+  started = true;
+  sound.unlock();
+  sound.startMusic(); // inside the tap: phones only allow sound that starts from a real gesture
+  sound.sfx.chime();
+  intro.classList.add('lit');
+  setTimeout(() => { document.body.classList.add('go'); }, 1300);
+  setTimeout(() => { intro.classList.add('done'); setTimeout(() => intro.remove(), 1000); }, 1700);
+}
+intro.addEventListener('click', lightDiya);
+intro.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lightDiya(); } });
+
+// Entering firecracker mode: the music fades out and pauses (the game page doesn't play it at all).
 const cta = document.querySelector('.cta');
-cta.addEventListener('pointerdown', () => { sound.unlock(); sound.sfx.bell(); });
 cta.addEventListener('click', () => sound.stopMusic());
 window.addEventListener('pagehide', sound.stopMusic);
