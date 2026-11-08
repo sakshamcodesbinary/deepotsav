@@ -105,6 +105,20 @@ function updateEnv() {
 
 // ---- input: drag a cracker from the tray ---------------------------------------------------------------------------------------
 const tray = document.getElementById('tray');
+
+// ---- arrow that tells people there are more crackers off-screen ------------------------------------------------------------
+const trayNext = document.getElementById('trayNext');
+function updateTrayArrow() {
+  const more = tray.scrollWidth - tray.clientWidth - tray.scrollLeft > 6;
+  const r = tray.getBoundingClientRect();
+  trayNext.hidden = !more;
+  if (more) { trayNext.style.top = r.top + 'px'; trayNext.style.height = r.height + 'px'; trayNext.style.left = (r.right - 46) + 'px'; }
+}
+trayNext.addEventListener('click', () => tray.scrollBy({ left: Math.max(120, tray.clientWidth * 0.6), behavior: 'smooth' }));
+tray.addEventListener('scroll', updateTrayArrow, { passive: true });
+window.addEventListener('resize', updateTrayArrow);
+window.addEventListener('orientationchange', () => setTimeout(updateTrayArrow, 250));
+
 const MAX_ACTIVE = 14;
 let drag = null;
 
@@ -290,6 +304,7 @@ async function boot() {
   window.addEventListener('resize', () => { layout(); updateEnv(); });
   window.addEventListener('orientationchange', () => setTimeout(() => { layout(); updateEnv(); }, 250));
   document.body.classList.add('ready');
+  updateTrayArrow(); setTimeout(updateTrayArrow, 400);
   fetch('/api/stats').then((r) => r.ok ? r.json() : null).then((s) => { if (s && typeof s.total === 'number') { statsOn = true; const n = document.getElementById('crowdN'); n.dataset.base = s.total; n.textContent = s.total + sessionBursts; document.querySelector('.crowd').hidden = false; } }).catch(() => {});
   requestAnimationFrame(loop);
 }
