@@ -1,0 +1,14 @@
+{
+  "name": "deepotsav",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ek Diwali Sab Ke Saath - a virtual Diwali firecracker game",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  },
+  "engines": { "node": ">=18" }
+}
