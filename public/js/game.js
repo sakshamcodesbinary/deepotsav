@@ -260,7 +260,9 @@ function loop(now) {
 document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running) { last = performance.now(); requestAnimationFrame(loop); } });
 
 // ---- boot --------------------------------------------------------------------------------------------------------------------------
+let statsOn = false; // the global counter only exists when the Node server is used (not on Vercel)
 function flushStats() {
+  if (!statsOn) return;
   const counts = { ...pending };
   if (!Object.keys(counts).length) return;
   for (const k of Object.keys(pending)) delete pending[k];
@@ -288,7 +290,7 @@ async function boot() {
   window.addEventListener('resize', () => { layout(); updateEnv(); });
   window.addEventListener('orientationchange', () => setTimeout(() => { layout(); updateEnv(); }, 250));
   document.body.classList.add('ready');
-  fetch('/api/stats').then((r) => r.ok ? r.json() : null).then((s) => { if (s) { const n = document.getElementById('crowdN'); n.dataset.base = s.total; n.textContent = s.total + sessionBursts; } }).catch(() => {});
+  fetch('/api/stats').then((r) => r.ok ? r.json() : null).then((s) => { if (s && typeof s.total === 'number') { statsOn = true; const n = document.getElementById('crowdN'); n.dataset.base = s.total; n.textContent = s.total + sessionBursts; document.querySelector('.crowd').hidden = false; } }).catch(() => {});
   requestAnimationFrame(loop);
 }
 boot();

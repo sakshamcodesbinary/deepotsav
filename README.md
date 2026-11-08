@@ -52,3 +52,16 @@ public/assets/       jethelal-special.mp3, landing-music.mp3, upi-qr.jpg
 * Make sure you have the right to publish the Jethelal tune and the landing-page music (compressed to 112 kbps so the page stays light).
 * The landing music loops and fades out when you enter the game. Browsers only allow sound after a tap or key press, so it starts on the first interaction if autoplay is blocked. It follows the sound mute/volume setting.
 * Payments are plain UPI: there is no gateway and nothing is tracked, so the site cannot confirm that anyone paid.
+
+## Deploy on Vercel
+
+Vercel serves `public/` as static files and runs `api/*.js` as serverless functions (`/api/config`, `/api/qr`). Settings:
+
+* Framework Preset: **Other**
+* Root Directory: `./`
+* Build Command: leave empty
+* Output Directory: `public`
+* Install Command: default (`npm install`, needed for `qrcode`)
+* Environment Variables: `UPI_ID`, `PAYEE_NAME`
+
+The global "crackers burst so far" counter needs a writable server, so on Vercel it is hidden automatically. Everything else works the same.

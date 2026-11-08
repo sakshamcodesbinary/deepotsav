@@ -36,6 +36,7 @@ body.dragging, body.dragging * { cursor: grabbing !important; }
 .hint { position: fixed; z-index: 20; left: 50%; bottom: calc(52px + env(safe-area-inset-bottom)); transform: translateX(-50%); width: max-content; max-width: 90vw; text-align: center; font-size: 15px; color: var(--cream); text-shadow: 0 2px 10px rgba(10, 4, 40, .9); transition: opacity .6s; pointer-events: none; }
 .hint.gone { opacity: 0; }
 .crowd { position: fixed; z-index: 20; left: 50%; bottom: max(18px, env(safe-area-inset-bottom)); transform: translateX(-50%); font-size: 13px; color: #d8c9ff; text-shadow: 0 2px 10px rgba(10, 4, 40, .9); pointer-events: none; white-space: nowrap; }
+.crowd[hidden] { display: none; }
 .crowd b { color: var(--gold-hi); font-variant-numeric: tabular-nums; }
 
 @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
